@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
-        SONAR_HOST_URL = 'http://localhost:9000'
-        SONAR_TOKEN    = 'sqp_162b0d22554c6482a9763ccfeabd47127861fe09'
+        SONAR_HOST_URL = 'https://sonarcloud.io'
+        SONAR_TOKEN    = '5a4eaa6052b3d145eebb490f2b5dd5f9e599b0c1'
+        SONAR_ORGANIZATION = 'marwa-essanousy'
+        SONAR_PROJECT_KEY  = 'marwa-essanousy_devsecops'
     }
 
     stages {
@@ -40,12 +42,14 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('SonarCloud Analysis') {
             steps {
                 bat """
                 C:\\sonar-scanner\\bin\\sonar-scanner.bat ^
                   -Dsonar.host.url=%SONAR_HOST_URL% ^
-                  -Dsonar.login=%SONAR_TOKEN%
+                  -Dsonar.token=%SONAR_TOKEN% ^
+                  -Dsonar.organization=%SONAR_ORGANIZATION% ^
+                  -Dsonar.projectKey=%SONAR_PROJECT_KEY%
                 """
             }
         }
